@@ -1,34 +1,33 @@
-Conceitos Iniciais
-
-Orientação a Objeto (OOP):
-    Classe é a Forma de bolo.
-    Instância é a utilização da classe, um exemplar.
-       !> Classe é um objeto;
-            classe C:
-                a = 1
-            C.a
-
-            C.__class__ > type
-            type(C) > type
-            isintance(C, type) > True
-            isintance(object, type) > True
-
-    !> A própria Classe é um objeto, e o próprio objeto vem de uma classe, sendo uma instância;
-        
-        class C:
-            def metodo_bacana(cls): 
-                ...
-        
-        C.__dict__ > mappingproxy({
-                '__module__': '__main__',
-                'metodo_bacana': <function C.metodo_bacana at 0x73f73b5ac540>,
-                '__dict__': <attribute '__dict__' of 'C' objects>,
-                '__weakref__': <attribute '__weakref__' of 'C' objects>,
-                '__doc__': None
-        })
-
-            self - corresponde a um atributo da instancia.
-            cls - corresponde a m atributo da própria classe.
+# Orientação a Objeto (OOP):
+    ## Classe é a Forma de bolo;
+    ## Instância é a utilização da classe, um exemplar;
+    ## Classe é um objeto;
+---
+>           classe C:
+>               a = 1
+>           C.a
+> 
+>           C.__class__ > type
+>           type(C) > type
+>           isintance(C, type) > True
+>           isintance(object, type) > True
+---
+    ### A própria Classe é um objeto, e o próprio objeto vem de uma classe, sendo uma instância;
+---
+>        class C:
+>           def metodo_bacana(cls): 
+>               ...
+> 
+>        C.__dict__ > mappingproxy({
+>               '__module__': '__main__',
+>               'metodo_bacana': <function C.metodo_bacana at 0x73f73b5ac540>,
+>               '__dict__': <attribute '__dict__' of 'C' objects>,
+>               '__weakref__': <attribute '__weakref__' of 'C' objects>,
+>               '__doc__': None
+>       })
+---
+    ### self - corresponde a um atributo da instancia.
+    ### cls - corresponde a m atributo da própria classe.
 
 *       !> Logo, a Classe já é um objeto, sendo instância de alguém.
 
@@ -47,7 +46,7 @@ Orientação a Objeto (OOP):
     
 *       > Logo o @classmethod define o metodo_bacana como um metodo e não um atributo da instância, como um função;
         
-Padrões Criacionais:
+> Padrões Criacionais:
     
     !> Como os Objetos são criados? objetivo desses padrões.
         Ex.:
@@ -57,7 +56,7 @@ Padrões Criacionais:
 *           **Singleton**: Garantir que uma classe crie apenas uma instância e forneça um ponto de global de acesso.
         As criações desses padrões é feita por atributos e métodos de classe.
 
-Singleton:
+> Singleton:
     
     !> GOF - Gang of Four - Livro de Padrão de Projetos
     |> Garantir que uma classe tenha somente uma instância, e fornecer um ponto global de acesso;
