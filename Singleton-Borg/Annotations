@@ -1,0 +1,158 @@
+> Orientação a Objeto (OOP):
+>>> Segundo ALAN KAY criador da linguagem de programação SMALLTALK <<<
+        SE A LINGUAGEM NÃO TEM METACLASSES, ELA NÃO É ORIENTADA A OBJETOS
+    > Classe é a Forma de bolo;
+    > Instância é a utilização da classe, um exemplar;
+    > Classe é um objeto;
+            classe C:
+                a = 1
+            C.a
+            
+            C.__class__ > type
+            type(C) > type
+            isintance(C, type) > True
+            isintance(object, type) > True
+    
+    > A própria Classe é um objeto, e o próprio objeto vem de uma classe, sendo uma instância;
+         
+         class C:
+            def metodo_bacana(cls): 
+                ...
+  
+            C.__dict__   mappingproxy({
+                '__module__': '__main__',
+                'metodo_bacana': <function C.metodo_bacana at 0x73f73b5ac540 ,
+                '__dict__': <attribute '__dict__' of 'C' objects ,
+                '__weakref__': <attribute '__weakref__' of 'C' objects ,
+                '__doc__': None
+        })
+        self - corresponde a um atributo da instancia.
+        cls - corresponde a m atributo da própria classe.
+
+        !> Logo, a Classe já é um objeto, sendo instância de alguém.
+    
+> Uso do decorador @classmethod
+
+        class C:
+            @classmethod
+            def metodo_bacana(cls): 
+                return 'Fui chamado'
+
+            C.metodo_bacana() > 'Fui chamado'
+        
+            O @classmethod já cria a instância, como se fosse:
+                a = C()
+                    a.metodo_bacana > 'Fui chamado'
+    
+        !> Logo o @classmethod define o metodo_bacana como um metodo e não um atributo da instância, como um função;
+        
+> Padrões Criacionais:
+    
+    > Como os Objetos são criados? objetivo desses padrões.
+        Ex.:
+              Builder: Criação de instâncias em etapas;
+              Factory: Interfaces padrões para criação de objetos distintos, 'Fábrica de Classes';
+              Prototype: Criação de um objeto a partir de outro, como cópia;
+              Singleton: Garantir que uma classe crie apenas uma instância e forneça um ponto de global de acesso.
+        As criações desses padrões é feita por atributos e métodos de classe.
+
+> Singleton:
+    
+    !> GOF - Gang of Four - Livro de Padrão de Projetos
+    !> Garantir que uma classe tenha somente uma instância, e fornecer um ponto global de acesso;
+    !> Construtor - __new__
+    !> Chamar - C() , onde '()' é o chamar a classe.
+
+        !> A instância deve ser obtida sem chamar o construtor. Devemos pedir por método.            
+                from __future__ import annotations       
+                
+                class Singleton:
+                    instance: Singleton
+
+                    @classmethod
+                    def get_instance(cls) -> Singleton:
+                        if not hasattr(cls, 'instance'):
+                            cls.instance = Singleton()
+                        return cls.instance
+        
+        !> Quem gerencia a criação de uma nova instância é a própria classe, que também cria as instâncias;
+        !> O get_instance é o ponto único;
+        !> Caso o Atributo de classe não esteja instanciado, a própria classe o cria.
+                |-> cls.instance = Singleton()
+        !> Agora o get_instance tornou-se o unico objeto conhecido:
+                |-> O mesmo objeto:
+                    Singleton.get_instance()
+                    <__main__.Singleton object at 0x7dddc5142b10>
+                    Singleton.get_instance()
+                    <__main__.Singleton object at 0x7dddc5142b10>
+        !> Criando um objeto único, evitando o problema de criar diversos objetos.
+        
+    !> Para que o objeto central "Singleton" não seja chamado, seria necessário priva-lo.
+    !> Em Linguagens estáticas, poderia ser feito assim, usando o contrutor:
+            |-> Batata name = new Batata()
+        > Onde o new colocaria o objeto como privado, podendo apenas chama-lo pelo get_instance.
+        
+    !> Em python não existe o conceito de objeto privado, mesmo usando o "__" na frente de variáveis, é apenas um acordo intríseco.
+        > Para resolver o problema, basta sobreescrever o construtor:
+            from __future__ import annotations
+            
+            class Singleton:
+                instance: Singleton
+                
+                def __new__(cls) -> Singleton:
+                    if not hasattr(cls, 'instance'):
+                        cls.instance = super().__new__(cls)
+                    return cls.instance
+
+            Singleton()
+            <__main__.Singleton object at 0x79ffab512720>
+            Singleton()
+            <__main__.Singleton object at 0x79ffab512720>
+
+    !> Se precisar criar 5 classes Singleton precisará de 5 __new__? 
+            |-> Se a linguagem possui metaclasses, não precisa de Singleton.
+            
+                class MetaSingleton(type):
+                    _instances = {}
+                    def __call__(cls, *args, **kwargs):
+                        if cls not in cls._instances:
+                            cls._instances[cls] = super().__call__(*args, **kwargs)
+                        return cls._instances[cls]
+
+                class Singleton(metaclass=MetaSingleton):
+                        ...
+            !> __call__ é um atributo de instância normalmente, porque é chamado;
+            !> Entretanto, nesta classe, ele é um atributo de classe, porque a classe é o Type;
+            
+    !> Mas se sua linguagem for dinâmica, utilize caches.
+    
+            from functools import cache
+            
+            @cache
+            class Singleton: ...
+            
+            Singleton()
+            <__main__.Singleton object at 0x7a6fe939b350>
+            Singleton()
+            <__main__.Singleton object at 0x7a6fe939b350>
+            
+    !> Resumo para linguagens:
+        > Se a linguagem não tem momoização (cache):
+            > Usa-se MetaClasse.
+        > Se a linguagem não tem MetaClsse:
+            > Usa-se o Construtor, __new__.
+        > Se o Construtor não pode ser privado:
+            > Usa-se o get_instance.
+        
+        > Entretanto o Pytohn possui tudo, logo, usa-se cache
+        
+    !> Para evitar o uso de cache, pode usar funções, módulos e namespaces:
+            
+            class _Singleton: ...
+            
+            sing = _Singleton()
+            
+            def Singleton():
+                return sing
+
+> PolySingleton

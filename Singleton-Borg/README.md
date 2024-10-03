@@ -9,6 +9,8 @@ Informações mais relevantes do Singleton:
 > Estrutura básica do Singleton:  
 
 ~~~python  
+from __future__ import annotations
+
 class Singleton:  
     instance: Singleton  
      
