@@ -6,11 +6,12 @@ Informações mais relevantes do Singleton:
 3. A instância deve ser obtida sem chamar o construtor. Devemos pedir por método
 4. Quem gerencia a criação de uma nova instância é a própria classe, que também cria as instâncias
 
+'''python
 > class Singleton:
 >    instance: Singleton
 > 
->    @classmethod
->    def get_instance(cls) -  Singleton:
->        if not hasattr(cls, 'instance'):
->            cls.instance = Singleton()
->        return cls.instance
+>    @classmethod  
+>    def get_instance(cls) -  Singleton:  
+>        if not hasattr(cls, 'instance'):  
+>            cls.instance = Singleton()  
+>        return cls.instance  '''
