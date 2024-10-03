@@ -10,11 +10,11 @@ Informações mais relevantes do Singleton:
 
 ~~~python  
 class Singleton:  
-instance: Singleton  
+    instance: Singleton  
      
-@classmethod  
-def get_instance(cls) -> Singleton:  
-if not hasattr(cls, 'instance'):  
-cls.instance = Singleton()  
-return cls.instance
+    @classmethod  
+    def get_instance(cls) -> Singleton:  
+        if not hasattr(cls, 'instance'):  
+            cls.instance = Singleton()  
+        return cls.instance
 ~~~
