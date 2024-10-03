@@ -7,12 +7,14 @@ Informações mais relevantes do Singleton:
 4. Quem gerencia a criação de uma nova instância é a própria classe, que também cria as instâncias
 
 > Estrutura básica do Singleton:  
-'''python  
+
+~~~python  
 class Singleton:  
-   instance: Singleton  
+instance: Singleton  
      
-   @classmethod  
-   def get_instance(cls) -  Singleton:  
-       if not hasattr(cls, 'instance'):  
-           cls.instance = Singleton()  
-       return cls.instance'''
+@classmethod  
+def get_instance(cls) -> Singleton:  
+if not hasattr(cls, 'instance'):  
+cls.instance = Singleton()  
+return cls.instance
+~~~
