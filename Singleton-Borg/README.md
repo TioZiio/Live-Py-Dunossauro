@@ -1,8 +1,7 @@
 # Orientação a Objeto (OOP):
-    ## Classe é a Forma de bolo;
-    ## Instância é a utilização da classe, um exemplar;
-    ## Classe é um objeto;
----
+##Classe é a Forma de bolo;
+##Instância é a utilização da classe, um exemplar;
+##Classe é um objeto;
 >           classe C:
 >               a = 1
 >           C.a
@@ -11,9 +10,7 @@
 >           type(C) > type
 >           isintance(C, type) > True
 >           isintance(object, type) > True
----
-    ### A própria Classe é um objeto, e o próprio objeto vem de uma classe, sendo uma instância;
----
+##A própria Classe é um objeto, e o próprio objeto vem de uma classe, sendo uma instância;
 >        class C:
 >           def metodo_bacana(cls): 
 >               ...
@@ -25,13 +22,12 @@
 >               '__weakref__': <attribute '__weakref__' of 'C' objects>,
 >               '__doc__': None
 >       })
----
-    ### self - corresponde a um atributo da instancia.
-    ### cls - corresponde a m atributo da própria classe.
+###self - corresponde a um atributo da instancia.
+###cls - corresponde a m atributo da própria classe.
 
-*       !> Logo, a Classe já é um objeto, sendo instância de alguém.
+##Logo, a Classe já é um objeto, sendo instância de alguém.
 
-    > Uso do decorador @classmethod
+####Uso do decorador @classmethod
 
         class C:
             @classmethod
