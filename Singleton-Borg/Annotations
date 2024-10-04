@@ -44,7 +44,7 @@
                 a = C()
                     a.metodo_bacana > 'Fui chamado'
     
-        !> Logo o @classmethod define o metodo_bacana como um metodo e não um atributo da instância, como um função;
+        !> O @classmethod define o metodo_bacana como um metodo e não um atributo da instância, como um função;
         
 > Padrões Criacionais:
     
@@ -109,6 +109,8 @@
             Singleton()
             <__main__.Singleton object at 0x79ffab512720>
 
+> MetaSingleton
+
     !> Se precisar criar 5 classes Singleton precisará de 5 __new__? 
             |-> Se a linguagem possui metaclasses, não precisa de Singleton.
             
@@ -124,35 +126,103 @@
             !> __call__ é um atributo de instância normalmente, porque é chamado;
             !> Entretanto, nesta classe, ele é um atributo de classe, porque a classe é o Type;
             
-    !> Mas se sua linguagem for dinâmica, utilize caches.
-    
-            from functools import cache
-            
-            @cache
-            class Singleton: ...
-            
-            Singleton()
-            <__main__.Singleton object at 0x7a6fe939b350>
-            Singleton()
-            <__main__.Singleton object at 0x7a6fe939b350>
-            
-    !> Resumo para linguagens:
-        > Se a linguagem não tem momoização (cache):
-            > Usa-se MetaClasse.
-        > Se a linguagem não tem MetaClsse:
-            > Usa-se o Construtor, __new__.
-        > Se o Construtor não pode ser privado:
-            > Usa-se o get_instance.
+        !> Mas se sua linguagem for dinâmica, utilize caches.
         
+                from functools import cache
+                
+                @cache
+                class Singleton: ...
+                
+                Singleton()
+                <__main__.Singleton object at 0x7a6fe939b350>
+                Singleton()
+                <__main__.Singleton object at 0x7a6fe939b350>
+            
+        !> Resumo para linguagens:
+            > Se a linguagem não tem momoização (cache):
+                > Usa-se MetaClasse.
+            > Se a linguagem não tem MetaClsse:
+                > Usa-se o Construtor, __new__.
+            > Se o Construtor não pode ser privado:
+                > Usa-se o get_instance.
+            
         > Entretanto o Pytohn possui tudo, logo, usa-se cache
         
-    !> Para evitar o uso de cache, pode usar funções, módulos e namespaces:
-            
-            class _Singleton: ...
-            
-            sing = _Singleton()
-            
-            def Singleton():
-                return sing
+        !> Para evitar o uso de cache, pode usar funções, módulos e namespaces:
+                
+                class _Singleton: ...
+                
+                sing = _Singleton()
+                
+                def Singleton():
+                    return sing
 
 > PolySingleton
+
+    > Objetivo é criar classes apartir de contextos.
+        
+        from functools import cache
+        
+        @cache
+        class Singleton:
+            def __init__(self, context=None, **kwargs):
+                self.context = context
+                
+        db0 = Singleton('sqlite')
+        db1 = Singleton('mariadb')
+        db2 = Singleton('sql', comida='arroz')
+        
+        !> Porquer querer ter uma unica instância? Borg resolve
+        
+> Borg
+
+    > Não importa quantas instâncias o objeto têm, tendo o mesmo ESTADO.
+        Ex.: 10 instâncias que referenciam ao mesmos objetos.
+
+        class Borg:
+            _share_state = {}
+            def __init__(self):
+                self.__dict__ = self.share_state
+                
+                !> share_state é o estado compartihado
+                
+                Borg().a = 10
+                v = Borg()
+                t = Borg()
+
+                v.a > 10
+                t.a > 10
+                v.a is t.a > True
+            
+            !> No fim não importa quantas classes/instâncias serão criadas, se o estado está compartilhado, o problema foi solucionado.
+
+> MetaBorg
+
+    > Se existe MetaClasse, porque não usar? mas no sentido do Borg não é necessário
+        
+        class MetaBorg(type):
+            _state = {}
+            def __call__(cls, *args, **kwargs):
+                if cls not in cls._state:
+                    cls._state[cls] = cls.__new__(cls)
+                return cls._state[cls]
+            
+        class C(metaclass=MetaBorg): ...
+        
+> RegisBorg
+
+    > O objetivo e parecido com o PolySingleton, voltado a contextos. Mas no sentido do Borg não é necessário, apenas se a necessidade de contexto.
+        
+        class RegisBorg:
+            _instance = {}
+            def __init__(self, context=None):
+                if not context in self._instance:
+                    self._instance[context] = self.__dict__
+                else:
+                    self.__dict__ = self._instance[context]
+                    
+                    
+> Pensamentos finais e organizando:
+!> Existe a necessidade de definir uma única instância, onde esta intância tem um único ponto de montagem (get_instance).
+!> Com MetaClasses na linguagem, abre a possibilidade de modificar a forma como as classes são criadas, podendo alterar as classes de fora.
+!> Se tem o Singleton com um única instância, Borg vai fazer o mesmo serviço, sem a necessidade dessa intância única, compartilhando. (Python compartilha o escopo)
