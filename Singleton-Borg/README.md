@@ -39,5 +39,4 @@ class Singleton(metaclass=MetaSingleton):
         ...  
 ~~~
 
->__call__ é um atributo de instância normalmente, porque é chamado  
->Entretanto, nesta classe, ele é um atributo de classe, porque a classe é o Type  
+>__call__ é um atributo de instância normalmente, porque é chamado. Entretanto, nesta classe ele é m atributo de classe (Type).
