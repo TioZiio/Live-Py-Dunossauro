@@ -1,0 +1,106 @@
+Conceitos históricos:
+
+> Eniac Computer (14/02/1946) - Primeiro computador digital programável do mundo.
+    |-> Pesava 30 toneladas e 180m² de área constrída.
+
+> Linguagens que passaram pela história:
+    |-> Assembly - (1947) - Linguagem popular e "Fácil", tendo interação com a
+    máquina.
+    |-> Fortran - (1957) - Criado pela IDM.
+    |-> BASIC - (1964) - Meio academico.
+    |-> SQL - (1974) - Modelo para banco de dados.
+
+> Durante o passar do anos, foi criado alguns modelos de programação:
+    |-> Imperativa: Programas escritos como sequências de comandos capazes de
+    alterar o estado de uma variável.
+            x = 2 ; y = 3 ; z = x + y
+    |-> Declativa: Programas escritos para descrever o que deve ser feito.
+            SELECT * FROM Clientes WHERE 'nome' = 'David';
+    |-> Funcional: Programas com funções que operam em dados imutáveis.
+            def xpto(val, *args, **kwargs): ...
+
+> Leis de Lehman (Final da decada de 70):
+    |-> Programas de software devem ser continuamente adaptados, tornando-se
+    menos aceitados no mercado.
+    |-> Mudanças no software tendem a aumentar sua complexidade, há menos que
+    rigorosamente modificado para controlar essas complexidades (refatoração).
+
+> Alan Key (Final/Inicío da decada de 70):
+    |-> utilzou a linguagem SmalTalk para refinar este conceito.
+    |-> Um dos país da programação orientada a objeto.
+
+> Manifesto Ágil (2001):
+    |-> Mudanças nos requisistos são bem-vindas, mesmo que tardias. Processos
+    ágeis auxiliam de forma a beneficiar tanto o cliente (tempo), quanto o
+    desenvolvedor.
+    |-> Processos ágeis promovem desenvolvimento sustentável, que conduz os
+    integrantes a manter um ritmo constante indefinidamente.
+    |-> Manter atenção a uma excelência técnica e bom design aumentam a
+    agilidade.
+    |-> Esse manifesto traz formas de trabalhar com software de forma trnaquila
+    e produtiva, evolução constante.
+
+Arquiteturas:
+
+> Arquiteturas mais "Famosas":
+    |-> MVC (Model, View, Control)
+    |-> Clean Arch
+    |-> Arquitetura Hexagonal(search about)
+
+> Arquitetura/Padrão MVC:
+    |-> Usado no desenvolvimento web e desktop.
+    |-> Separa a lógica de negócio (Controller), interface do usuário (View), e
+    a lógica de armazenamento e estados (Model).
+    |-> Django usa esse padrão com uma pequena mudança (MVT - Model, View,
+    Template).
+    |-> Existem algumas variações do MVC:
+        > MVP - Model, View, Presenter
+        > MVVM - Model, View - Model, View
+
+> Clean Architecture:
+    |-> Proposta criada por Robert C. Martin
+    |-> De certo ângulo, essa arquitetura trabalha em camadas de uma cebola,
+    sendo o centro as regras de negócio (principal), e as camadas subsequentes,
+    dependem da camada anterior.
+
+    |-> Funcionalidades: dividi-las por conceito (utilidade, idealização) e
+    detalha-las por execução (o que realmente faz a funcionalidade)
+            Ex.: 
+                Carro:
+                    |-> funcionalidade de girar a roda (subjetiva).
+                        |-> Execução: ato de girar a roda
+                            |-> Criar a "interface" para usar nas 4 rodas
+                                |-> funcionalida.execução.roda1
+                                    |-> Subjetiva.Ação.Objeto_Final
+                                |-> funcionalida.execução.roda2
+                                |-> funcionalida.execução.roda3
+                                |-> funcionalida.execução.roda4
+                        
+
+    Conceitos entendidos:
+        |-> As camadas são conectas uma sob a outra, sendo a primeira as regras
+        ou funcionalidades do sistema. Depois vem o detalhamento dessas regras.
+        |-> Para qualquer função do meu sistema, como uma regra de negócio, esta
+        regra antes de ser utilizada, deve ser apresentada, como:
+
+            from abc import ABC, abstractmethod
+            from typing import Dict
+            class UserRegister(ABC):
+
+                @abstractmethod
+                def register(self, nome: str, sobrenome: str, age: int) -> Dict:
+                    pass
+
+            > Após definir a regra ou aprensneta-la, basta então, importa-la e
+            fazer as validações necessárias.
+            > Em resumo, existe dois aquivos, um apresentar a funcionalidade e o
+            outro a detalha.
+
+        |-> Porque ter o Abstract em um local e o method em outro?
+            De certa forma, seria como documentar antes de criar a
+            funcionalidade e seus usos. Eu digo o que ela irá fazer, e depois eu
+            faço.
+
+    Conceitos Aprendidos:
+        |-> Classe abistrata apenas pode ser usada como heraça, sendo assim
+        apenas diz o que será feito, sem fazer.
